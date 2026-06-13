@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PurohitSeva — Find Your Purohit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mulish:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo" onclick="go('home')">
+      <div class="logo-mark">ॐ</div>
+      <div class="logo-text">Purohit<em>Seva</em></div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link" data-page="home" onclick="go('home')">Home</button>
+      <button class="nav-link" data-page="near" onclick="go('near')">Purohits Near Me</button>
+      <button class="nav-link" data-page="services" onclick="go('services')">Services</button>
+      <div class="search-wrap">
+        <button class="nav-link" data-page="search" onclick="go('search')">Search ▾</button>
+        <div class="search-split">
+          <button onclick="go('search','price')"><span class="ic">₹</span> Search by Price</button>
+          <button onclick="go('search','name')"><span class="ic">अ</span> Search by Name</button>
+        </div>
+      </div>
+    </div>
+    <div id="auth-slot"></div>
+  </div>
+</nav>
+
+<div class="page visible" id="page-home">
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <span class="hero-kicker">Verified · Vedic · Vetted</span>
+        <h1>Every ritual deserves the <span class="hl">right purohit</span>.</h1>
+        <p class="lede">Browse verified purohits in your city, see exactly which poojas they perform and what each one costs — transparent pricing, no middlemen, no surprises on the day of the ceremony.</p>
+        <div class="hero-actions">
+          <button class="btn-saffron" onclick="go('near')">Find Purohits Near Me</button>
+          <button class="btn-ghost" onclick="go('services')">Browse Poojas →</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><div class="num" id="stat-purohits">0</div><div class="lbl">Purohits</div></div>
+          <div class="stat"><div class="num" id="stat-services">0</div><div class="lbl">Pooja Types</div></div>
+          <div class="stat"><div class="num">4.8★</div><div class="lbl">Avg Rating</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="mandala"><div class="mandala-dot"></div></div>
+        <div class="diya-core"><div class="om">ॐ</div></div>
+      </div>
+    </div>
+    <svg class="temple-divider" viewBox="0 0 1200 54" preserveAspectRatio="none" style="background:transparent;position:relative;z-index:2">
+      <path d="M0,54 L0,40 L80,40 L80,28 L140,28 L160,10 L180,28 L240,28 L240,40 L380,40 L380,24 L430,24 L460,2 L490,24 L540,24 L540,40 L700,40 L700,30 L760,30 L785,12 L810,30 L870,30 L870,40 L1010,40 L1010,26 L1060,26 L1085,8 L1110,26 L1160,26 L1160,40 L1200,40 L1200,54 Z" fill="#faf3e7"/>
+    </svg>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>Three steps to a blessed ceremony</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="n">1</span><div class="ico">📍</div><h3>Discover nearby</h3><p>See purohits enlisted near you with distance, languages spoken and full pooja menus on every profile.</p></div>
+        <div class="step"><span class="n">2</span><div class="ico">📜</div><h3>Compare openly</h3><p>Each purohit lists every pooja they perform with the exact price they charge — compare side by side.</p></div>
+        <div class="step"><span class="n">3</span><div class="ico">🪔</div><h3>Book with faith</h3><p>Confirm your muhurat, get samagri checklists, and welcome the purohit to your home on the day.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:20px">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Featured</span>
+        <h2>Purohits families trust</h2>
+        <p>A glimpse of the verified purohits on the platform — every profile shows the poojas offered and the price for each.</p>
+      </div>
+      <div class="cards-grid" id="featured-grid"></div>
+      <div style="text-align:center;margin-top:36px">
+        <button class="btn-saffron" style="background:var(--maroon);box-shadow:0 8px 24px rgba(74,18,18,.3)" onclick="go('near')">View all purohits near me</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--cream-warm);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Services available</span>
+        <h2>Poojas you can book today</h2>
+        <p>Automatically compiled from what our purohits offer. Tap any pooja to see who performs it.</p>
+      </div>
+      <div class="chip-cloud" id="chip-cloud"></div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-near">
+  <div class="subhero">
+    <div class="container">
+      <span class="eyebrow">📍 Hyderabad, Telangana</span>
+      <h1>Purohits Near Me</h1>
+      <p>Verified purohits around you, sorted by distance. Every card lists the poojas they perform and the price for each service.</p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="toolbar">
+      <label>Within</label>
+      <select id="near-radius" onchange="renderNear()">
+        <option value="5">5 km</option>
+        <option value="10" selected>10 km</option>
+        <option value="20">20 km</option>
+        <option value="100">Anywhere</option>
+      </select>
+      <label>Pooja</label>
+      <select id="near-pooja" onchange="renderNear()"><option value="">Any pooja</option></select>
+      <span class="results-count" id="near-count"></span>
+    </div>
+    <div class="cards-grid" id="near-grid" style="padding-bottom:70px"></div>
+  </div>
+</div>
+
+<div class="page" id="page-services">
+  <div class="subhero">
+    <div class="container">
+      <span class="eyebrow">🪔 Catalogue</span>
+      <h1>Services Available</h1>
+      <p>This list is built directly from our purohits' offerings — every pooja at least one enlisted purohit can perform, with the live price range across all of them.</p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="toolbar">
+      <label>Sort</label>
+      <select id="svc-sort" onchange="renderServices()">
+        <option value="popular">Most purohits available</option>
+        <option value="cheap">Lowest starting price</option>
+        <option value="az">A → Z</option>
+      </select>
+      <span class="results-count" id="svc-count"></span>
+    </div>
+    <div class="svc-grid" id="svc-grid" style="padding-bottom:70px"></div>
+  </div>
+</div>
+
+<div class="page" id="page-search">
+  <div class="subhero">
+    <div class="container">
+      <span class="eyebrow">🔍 Find exactly who you need</span>
+      <h1>Search Purohits</h1>
+      <p>Search by what you can spend, or by a purohit you already know by name.</p>
+    </div>
+  </div>
+  <div class="container" style="padding-top:44px">
+    <div class="search-modes">
+      <button class="mode-btn" id="mode-price" onclick="setMode('price')">
+        <span class="ic">₹</span><h3>By Price</h3>
+        <p>Set a budget and we'll show purohits with poojas within it.</p>
+      </button>
+      <button class="mode-btn" id="mode-name" onclick="setMode('name')">
+        <span class="ic">अ</span><h3>By Name</h3>
+        <p>Already know your family purohit? Find them directly.</p>
+      </button>
+    </div>
+
+    <div class="toolbar" id="price-tools">
+      <label>Max budget</label>
+      <select id="budget" onchange="renderSearch()">
+        <option value="1500">Under ₹1,500</option>
+        <option value="3000">Under ₹3,000</option>
+        <option value="5000" selected>Under ₹5,000</option>
+        <option value="10000">Under ₹10,000</option>
+        <option value="999999">Any budget</option>
+      </select>
+      <label>Sort</label>
+      <select id="price-sort" onchange="renderSearch()">
+        <option value="low">Cheapest first</option>
+        <option value="high">Premium first</option>
+      </select>
+      <span class="results-count" id="search-count"></span>
+    </div>
+
+    <div class="toolbar" id="name-tools" style="display:none">
+      <label>Name</label>
+      <input type="text" id="name-q" class="grow" placeholder="e.g. Sharma, Ramesh, Shastri…" oninput="renderSearch()">
+      <span class="results-count" id="search-count2"></span>
+    </div>
+
+    <div class="cards-grid" id="search-grid" style="padding-bottom:70px"></div>
+    <div class="empty" id="search-empty" style="display:none">
+      <div class="big">🪷</div>
+      <p>No purohits match that yet. Try widening your budget or a shorter name.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-veil" id="veil" onclick="if(event.target===this)closeBooking()">
+  <div class="modal">
+    <div class="modal-head" id="modal-head"></div>
+    <div class="modal-body">
+      <div class="mstep-label">1 · Choose a pooja</div>
+      <div class="svc-rows" id="m-services"></div>
+      <div id="m-schedule"></div>
+      <div class="book-summary" id="m-summary" style="display:none"></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<div class="page" id="page-account">
+  <div class="subhero">
+    <div class="container">
+      <span class="eyebrow">👤 Your profile</span>
+      <h1>Account Information</h1>
+      <p>Your details used for bookings, purohit communication and samagri delivery.</p>
+    </div>
+  </div>
+  <div class="container" style="padding-top:44px">
+    <div class="acct-grid" id="acct-grid"></div>
+  </div>
+</div>
+
+<div class="page" id="page-history">
+  <div class="subhero">
+    <div class="container">
+      <span class="eyebrow">📜 Booked services</span>
+      <h1>My Bookings</h1>
+      <p>Upcoming ceremonies and your past poojas, all in one place.</p>
+    </div>
+  </div>
+  <div class="container" style="padding-top:44px">
+    <div class="hist-list" id="hist-list"></div>
+  </div>
+</div>
+
+<div class="modal-veil" id="login-veil" onclick="if(event.target===this)closeLogin()">
+  <div class="modal login-card">
+    <div class="modal-head">
+      <div class="logo-mark" style="width:46px;height:46px;font-size:24px">ॐ</div>
+      <div><h3>Welcome to PurohitSeva</h3><div class="sub">Login to book poojas &amp; track your ceremonies</div></div>
+      <button class="modal-x" onclick="closeLogin()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="login-tabs">
+        <button id="tab-login" class="login-tab active" onclick="switchTab('login')">Login</button>
+        <button id="tab-signup" class="login-tab" onclick="switchTab('signup')">Sign Up</button>
+      </div>
+      <div id="pane-login">
+        <div class="fld"><label>Email</label><input type="email" id="li-mail" placeholder="you@gmail.com" autocomplete="email"></div>
+        <div class="fld"><label>Password</label><input type="password" id="li-pass" placeholder="Your password" autocomplete="current-password"></div>
+        <button class="confirm-btn login-full" onclick="doLogin()">Login →</button>
+      </div>
+      <div id="pane-signup" style="display:none">
+        <div class="fld"><label>Display name</label><input type="text" id="su-name" placeholder="e.g. Sidharth" autocomplete="name"></div>
+        <div class="fld"><label>Email</label><input type="email" id="su-mail" placeholder="you@gmail.com" autocomplete="email"></div>
+        <div class="fld"><label>Password</label><input type="password" id="su-pass" placeholder="Min 8 characters" autocomplete="new-password"></div>
+        <div class="fld"><label>Phone <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></label><input type="tel" id="su-phone" placeholder="+91 ·····" autocomplete="tel"></div>
+        <button class="confirm-btn login-full" onclick="doSignup()">Create Account →</button>
+      </div>
+      <div class="login-alt">Are you a purohit? <a onclick="enlistInfo()">Enlist here</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-enlist">
+  <div class="subhero">
+    <div class="container">
+      <span class="eyebrow">🪔 Join the platform</span>
+      <h1>Enlist as a Purohit</h1>
+      <p>Pick the poojas you perform from our catalogue, set your price for each, and add anything we don't have yet. You can add more services any time after enlisting.</p>
+    </div>
+  </div>
+  <div class="container" style="padding-top:44px">
+    <div class="enlist-wrap">
+      <div class="enlist-card">
+        <h2>Your details</h2>
+        <div class="sub">Shown on your public profile card.</div>
+        <div class="fld-row">
+          <div class="fld"><label>Display name</label><input type="text" id="en-name" placeholder="e.g. Pt. Sidharth Sharma"></div>
+          <div class="fld"><label>Area</label><input type="text" id="en-area" placeholder="e.g. Kukatpally"></div>
+        </div>
+        <div class="fld"><label>Languages</label><input type="text" id="en-langs" placeholder="e.g. Telugu · Hindi · Sanskrit"></div>
+      </div>
+      <div class="enlist-card">
+        <h2>Services you offer</h2>
+        <div class="sub">These are the poojas already on the platform — tick what you perform and enter <b>your price</b> for each.</div>
+        <div id="en-services"></div>
+      </div>
+      <div class="enlist-card">
+        <h2>Offer something new</h2>
+        <div class="sub">Don't see a pooja you perform? Add it — it joins the platform catalogue for everyone to discover.</div>
+        <div class="custom-add">
+          <input type="text" id="cu-name" class="grow" placeholder="Pooja name, e.g. Chandi Homam">
+          <select id="cu-dur">
+            <option value="s1">≈2–3 hrs</option>
+            <option value="s2">Half day</option>
+            <option value="s3">Full day</option>
+            <option value="d2">2 days</option>
+            <option value="d3">3 days</option>
+            <option value="d4">4 days</option>
+          </select>
+          <input type="number" id="cu-price" placeholder="₹ Price" style="width:110px">
+          <button class="add-mini" onclick="addCustomService('enlist')">+ Add</button>
+        </div>
+        <div id="cu-added" style="margin-top:14px"></div>
+      </div>
+      <div style="text-align:center">
+        <button class="confirm-btn" style="padding:16px 44px;font-size:15px" onclick="submitEnlist()">🪔 Enlist Me</button>
+        <div class="muted-hint" style="text-align:center">Demo note: you'll instantly appear in "Purohits Near Me" and receive sample booking requests.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-pending">
+  <div class="subhero">
+    <div class="container">
+      <span class="eyebrow">📨 Action needed</span>
+      <h1>Pending Requests</h1>
+      <p>Families who want to book you. Accepting writes the booking into your calendar; declining frees the request.</p>
+    </div>
+  </div>
+  <div class="container" style="padding-top:44px;max-width:880px">
+    <div id="pending-list" style="padding-bottom:70px"></div>
+  </div>
+</div>
+
+<div class="page" id="page-upcoming">
+  <div class="subhero">
+    <div class="container">
+      <span class="eyebrow">🗓 Confirmed</span>
+      <h1>Upcoming Services</h1>
+      <p>Your accepted ceremonies, soonest first.</p>
+    </div>
+  </div>
+  <div class="container" style="padding-top:44px;max-width:880px">
+    <div id="upcoming-strip"></div>
+    <div id="upcoming-list" style="padding-bottom:70px"></div>
+  </div>
+</div>
+
+<div class="page" id="page-calendar">
+  <div class="subhero">
+    <div class="container">
+      <span class="eyebrow">📅 Your schedule</span>
+      <h1>Calendar</h1>
+      <p>Every confirmed ceremony at a glance. Multi-day poojas span across their full duration.</p>
+    </div>
+  </div>
+  <div class="container" style="padding-top:44px">
+    <div class="cal-shell">
+      <div class="cal-head">
+        <h3 id="cal-title"></h3>
+        <div class="cal-nav">
+          <button onclick="calShift(-1)">‹</button>
+          <button class="today-btn" onclick="calToday()">Today</button>
+          <button onclick="calShift(1)">›</button>
+        </div>
+      </div>
+      <div class="cal-dows"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo"><div class="logo-mark">ॐ</div><div class="logo-text" style="color:var(--cream)">Purohit<em>Seva</em></div></div>
+        <p>Connecting families with verified purohits for every sacred occasion — with honest, upfront pricing.</p>
+      </div>
+      <div><h4>Explore</h4><a onclick="go('near')">Purohits near me</a><a onclick="go('services')">All services</a><a onclick="go('search','price')">Search by price</a><a onclick="go('search','name')">Search by name</a></div>
+      <div><h4>For Purohits</h4><a>Enlist yourself</a><a>Pricing guidelines</a><a>Verification</a></div>
+      <div><h4>Support</h4><a>Help centre</a><a>Samagri lists</a><a>Contact us</a></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 PurohitSeva · Hyderabad</span><span class="skt">सर्वे भवन्तु सुखिनः</span></div>
+  </div>
+</footer>
+
+<div class="modal-veil" id="addsvc-veil" onclick="if(event.target===this)closeAddSvc()">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="logo-mark" style="width:46px;height:46px;font-size:24px">🪔</div>
+      <div><h3>Add a Service</h3><div class="sub">Extend your offerings — live immediately on your profile</div></div>
+      <button class="modal-x" onclick="closeAddSvc()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="mstep-label">From the platform catalogue</div>
+      <div id="addsvc-list"></div>
+      <div class="mstep-label">Or something new</div>
+      <div class="custom-add">
+        <input type="text" id="as-name" class="grow" placeholder="Pooja name">
+        <select id="as-dur">
+          <option value="s1">≈2–3 hrs</option>
+          <option value="s2">Half day</option>
+          <option value="s3">Full day</option>
+          <option value="d2">2 days</option>
+          <option value="d3">3 days</option>
+          <option value="d4">4 days</option>
+        </select>
+        <input type="number" id="as-price" placeholder="₹ Price" style="width:110px">
+        <button class="add-mini" onclick="addCustomService('modal')">+ Add</button>
+      </div>
+      <div class="book-summary" style="margin-top:22px">
+        <div class="bs-txt">Tick services & set prices, then save.</div>
+        <button class="confirm-btn" onclick="saveAddedServices()">Save Services</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Razorpay Checkout — must load before script.js -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
