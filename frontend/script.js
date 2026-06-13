@@ -3,7 +3,7 @@
    ============================================================ */
 
 /* ---------- API helper ---------- */
-const API = "/api/v1";
+const API = "https://purohitseva-1.onrender.com/api/v1";
 let TOKEN = localStorage.getItem("token");
 
 async function api(path, options = {}) {
